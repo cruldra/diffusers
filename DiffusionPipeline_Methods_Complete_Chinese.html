@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DiffusionPipeline_Methods_Complete_Chinese.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="diffusionpipeline-%E7%B1%BB%E6%96%B9%E6%B3%95%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%E5%AE%8C%E6%95%B4%E4%B8%AD%E6%96%87%E7%BF%BB%E8%AF%91%E7%89%88">DiffusionPipeline 类方法详细说明（完整中文翻译版）</h1>
+<h2 id="%E7%9B%AE%E5%BD%95">目录</h2>
+<ul>
+<li><a href="#%E7%B1%BB%E5%B1%9E%E6%80%A7">类属性</a></li>
+<li><a href="#%E6%A0%B8%E5%BF%83%E6%96%B9%E6%B3%95">核心方法</a></li>
+<li><a href="#%E8%AE%BE%E5%A4%87%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86">设备和内存管理</a></li>
+<li><a href="#%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%BC%98%E5%8C%96">注意力优化</a></li>
+<li><a href="#vae%E4%BC%98%E5%8C%96">VAE优化</a></li>
+<li><a href="#%E5%B7%A5%E5%85%B7%E6%96%B9%E6%B3%95">工具方法</a></li>
+<li><a href="#%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD">高级功能</a></li>
+</ul>
+<h2 id="%E7%B1%BB%E5%B1%9E%E6%80%A7">类属性</h2>
+<h3 id="%E5%9F%BA%E7%A1%80%E5%B1%9E%E6%80%A7">基础属性</h3>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>类型</th>
+<th>默认值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>config_name</code></td>
+<td><code>str</code></td>
+<td><code>&quot;model_index.json&quot;</code></td>
+<td>存储扩散Pipeline所有组件的类名和模块名的配置文件名</td>
+</tr>
+<tr>
+<td><code>model_cpu_offload_seq</code></td>
+<td><code>Optional[str]</code></td>
+<td><code>None</code></td>
+<td>模型CPU卸载序列，定义模型卸载顺序</td>
+</tr>
+<tr>
+<td><code>hf_device_map</code></td>
+<td><code>Optional[Dict]</code></td>
+<td><code>None</code></td>
+<td>HuggingFace设备映射配置</td>
+</tr>
+<tr>
+<td><code>_optional_components</code></td>
+<td><code>List[str]</code></td>
+<td><code>[]</code></td>
+<td>所有可选组件的列表，这些组件不必传递给Pipeline即可运行（应由子类重写）</td>
+</tr>
+<tr>
+<td><code>_exclude_from_cpu_offload</code></td>
+<td><code>List[str]</code></td>
+<td><code>[]</code></td>
+<td>从CPU卸载中排除的组件列表</td>
+</tr>
+<tr>
+<td><code>_load_connected_pipes</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>是否加载连接的Pipeline</td>
+</tr>
+<tr>
+<td><code>_is_onnx</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>是否为ONNX Pipeline</td>
+</tr>
+</tbody>
+</table>
+<h2 id="%E6%A0%B8%E5%BF%83%E6%96%B9%E6%B3%95">核心方法</h2>
+<h3 id="1-frompretrained-%E7%B1%BB%E6%96%B9%E6%B3%95">1. <code>from_pretrained</code> 类方法</h3>
+<pre class="hljs"><code><div><span class="hljs-meta">@classmethod</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">from_pretrained</span><span class="hljs-params">(
+    cls, 
+    pretrained_model_name_or_path: Optional[Union[str, os.PathLike]], 
+    **kwargs
+)</span> -&gt; Self
+</span></div></code></pre>
+<p><strong>描述</strong>: 从预训练Pipeline权重实例化PyTorch扩散Pipeline。Pipeline默认设置为评估模式（<code>model.eval()</code>）。</p>
+<p><strong>核心参数</strong>:</p>
+<ul>
+<li><code>pretrained_model_name_or_path</code> (<code>str</code> 或 <code>os.PathLike</code>, 可选): 可以是：
+<ul>
+<li>字符串，托管在Hub上的预训练Pipeline的<em>仓库id</em>（例如<code>CompVis/ldm-text2im-large-256</code>）</li>
+<li>包含使用<code>DiffusionPipeline.save_pretrained</code>保存的Pipeline权重的<em>目录</em>路径（例如<code>./my_pipeline_directory/</code>）</li>
+<li>包含dduf文件的<em>目录</em>路径（例如<code>./my_pipeline_directory/</code>）</li>
+</ul>
+</li>
+</ul>
+<p><strong>数据类型参数</strong>:</p>
+<ul>
+<li><code>torch_dtype</code> (<code>torch.dtype</code> 或 <code>dict[str, Union[str, torch.dtype]]</code>, 可选): 覆盖默认的<code>torch.dtype</code>并使用另一种dtype加载模型。要使用不同dtype加载子模型，请传递dict（例如<code>{'transformer': torch.bfloat16, 'vae': torch.float16}</code>）。使用<code>default</code>为未指定的组件设置默认dtype（例如<code>{'transformer': torch.bfloat16, 'default': torch.float16}</code>）。如果未指定组件且未设置默认值，则使用<code>torch.float32</code>。</li>
+</ul>
+<p><strong>自定义Pipeline参数</strong>:</p>
+<ul>
+<li><code>custom_pipeline</code> (<code>str</code>, 可选): 🧪 这是一个实验性功能，可能在未来发生变化。可以是：
+<ul>
+<li>字符串，托管在Hub上的自定义Pipeline的<em>仓库id</em>（例如<code>hf-internal-testing/diffusers-dummy-pipeline</code>）。仓库必须包含定义自定义Pipeline的<code>pipeline.py</code>文件。</li>
+<li>字符串，托管在GitHub上Community下的社区Pipeline的<em>文件名</em>。有效文件名必须匹配文件名而不是Pipeline脚本（<code>clip_guided_stable_diffusion</code>而不是<code>clip_guided_stable_diffusion.py</code>）。社区Pipeline始终从GitHub的当前main分支加载。</li>
+<li>包含自定义Pipeline的目录路径（<code>./my_pipeline_directory/</code>）。目录必须包含定义自定义Pipeline的<code>pipeline.py</code>文件。</li>
+</ul>
+</li>
+</ul>
+<p><strong>下载控制参数</strong>:</p>
+<ul>
+<li><code>force_download</code> (<code>bool</code>, 可选, 默认为 <code>False</code>): 是否强制（重新）下载模型权重和配置文件，覆盖缓存版本（如果存在）。</li>
+<li><code>cache_dir</code> (<code>Union[str, os.PathLike]</code>, 可选): 如果不使用标准缓存，则缓存下载的预训练模型配置的目录路径。</li>
+<li><code>proxies</code> (<code>Dict[str, str]</code>, 可选): 按协议或端点使用的代理服务器字典，例如<code>{'http': 'foo.bar:3128', 'http://hostname': 'foo.bar:4012'}</code>。代理在每个请求中使用。</li>
+<li><code>output_loading_info</code> (<code>bool</code>, 可选, 默认为 <code>False</code>): 是否还返回包含缺失键、意外键和错误消息的字典。</li>
+<li><code>local_files_only</code> (<code>bool</code>, 可选, 默认为 <code>False</code>): 是否仅加载本地模型权重和配置文件。如果设置为<code>True</code>，模型不会从Hub下载。</li>
+<li><code>token</code> (<code>str</code> 或 <code>bool</code>, 可选): 用作远程文件HTTP bearer授权的令牌。如果为<code>True</code>，则使用从<code>diffusers-cli login</code>生成的令牌（存储在<code>~/.huggingface</code>中）。</li>
+<li><code>revision</code> (<code>str</code>, 可选, 默认为 <code>&quot;main&quot;</code>): 要使用的特定模型版本。可以是分支名称、标签名称、提交id或Git允许的任何标识符。</li>
+<li><code>custom_revision</code> (<code>str</code>, 可选): 要使用的特定模型版本。在从Hub加载自定义Pipeline时，可以是类似于<code>revision</code>的分支名称、标签名称或提交id。默认为最新稳定的🤗 Diffusers版本。</li>
+<li><code>mirror</code> (<code>str</code>, 可选): 镜像源，用于解决在中国下载模型时的可访问性问题。我们不保证源的及时性或安全性，您应该参考镜像站点获取更多信息。</li>
+</ul>
+<p><strong>设备映射参数</strong>:</p>
+<ul>
+<li><code>device_map</code> (<code>str</code>, 可选): 指示Pipeline的不同组件应如何放置在可用设备上的策略。目前仅支持&quot;balanced&quot; <code>device_map</code>。查看<a href="https://huggingface.co/docs/diffusers/main/en/tutorials/inference_with_big_models#device-placement">此链接</a>了解更多信息。</li>
+<li><code>max_memory</code> (<code>Dict</code>, 可选): 设备标识符的最大内存字典。如果未设置，将默认为每个GPU的最大可用内存和可用的CPU RAM。</li>
+<li><code>offload_folder</code> (<code>str</code> 或 <code>os.PathLike</code>, 可选): 如果device_map包含值<code>&quot;disk&quot;</code>，则卸载权重的路径。</li>
+<li><code>offload_state_dict</code> (<code>bool</code>, 可选): 如果为<code>True</code>，临时将CPU状态字典卸载到硬盘，以避免在CPU状态字典的权重+检查点最大分片不适合时耗尽CPU RAM。当有一些磁盘卸载时默认为<code>True</code>。</li>
+</ul>
+<p><strong>内存优化参数</strong>:</p>
+<ul>
+<li><code>low_cpu_mem_usage</code> (<code>bool</code>, 可选, 如果torch版本&gt;=1.9.0则默认为 <code>True</code>，否则为 <code>False</code>): 仅加载预训练权重而不初始化权重来加速模型加载。这也尝试在加载模型时不使用超过1x模型大小的CPU内存（包括峰值内存）。仅支持PyTorch &gt;= 1.9.0。如果您使用较旧版本的PyTorch，将此参数设置为<code>True</code>将引发错误。</li>
+<li><code>use_safetensors</code> (<code>bool</code>, 可选, 默认为 <code>None</code>): 如果设置为<code>None</code>，如果safetensors权重可用<strong>且</strong>安装了safetensors库，则下载safetensors权重。如果设置为<code>True</code>，模型强制从safetensors权重加载。如果设置为<code>False</code>，不加载safetensors权重。</li>
+<li><code>use_onnx</code> (<code>bool</code>, 可选, 默认为 <code>None</code>): 如果设置为<code>True</code>，如果存在ONNX权重，将始终下载。如果设置为<code>False</code>，永远不会下载ONNX权重。默认情况下，<code>use_onnx</code>默认为<code>_is_onnx</code>类属性，对于非ONNX Pipeline为<code>False</code>，对于ONNX Pipeline为<code>True</code>。ONNX权重包括以<code>.onnx</code>和<code>.pb</code>结尾的文件。</li>
+<li><code>variant</code> (<code>str</code>, 可选): 从指定的变体文件名加载权重，如<code>&quot;fp16&quot;</code>或<code>&quot;ema&quot;</code>。从<code>from_flax</code>加载时忽略此项。</li>
+<li><code>dduf_file</code> (<code>str</code>, 可选): 从指定的dduf文件加载权重。</li>
+</ul>
+<p><strong>其他参数</strong>:</p>
+<ul>
+<li><code>kwargs</code> (剩余的关键字参数字典, 可选): 可用于覆盖加载和可保存变量（特定Pipeline类的Pipeline组件）。覆盖的组件直接传递给Pipeline的<code>__init__</code>方法。请参见下面的示例了解更多信息。</li>
+</ul>
+<p><strong>提示</strong>: 要使用私有或<a href="https://huggingface.co/docs/hub/models-gated#gated-models">门控</a>模型，请使用<code>hf auth login</code>登录。</p>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> diffusers <span class="hljs-keyword">import</span> DiffusionPipeline
+
+<span class="hljs-comment"># 从huggingface.co下载并缓存Pipeline</span>
+pipeline = DiffusionPipeline.from_pretrained(<span class="hljs-string">"CompVis/ldm-text2im-large-256"</span>)
+
+<span class="hljs-comment"># 下载需要授权令牌的Pipeline</span>
+<span class="hljs-comment"># 有关访问令牌的更多信息，请参考文档的此部分</span>
+<span class="hljs-comment"># https://huggingface.co/docs/hub/security-tokens</span>
+pipeline = DiffusionPipeline.from_pretrained(<span class="hljs-string">"stable-diffusion-v1-5/stable-diffusion-v1-5"</span>)
+
+<span class="hljs-comment"># 使用不同的调度器</span>
+<span class="hljs-keyword">from</span> diffusers <span class="hljs-keyword">import</span> LMSDiscreteScheduler
+
+scheduler = LMSDiscreteScheduler.from_config(pipeline.scheduler.config)
+pipeline.scheduler = scheduler
+</div></code></pre>
+<hr>
+<h3 id="2-savepretrained-%E6%96%B9%E6%B3%95">2. <code>save_pretrained</code> 方法</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">save_pretrained</span><span class="hljs-params">(
+    self,
+    save_directory: Union[str, os.PathLike],
+    safe_serialization: bool = True,
+    variant: Optional[str] = None,
+    max_shard_size: Optional[Union[int, str]] = None,
+    push_to_hub: bool = False,
+    **kwargs
+)</span>
+</span></div></code></pre>
+<p><strong>描述</strong>: 将Pipeline的所有可保存变量保存到目录中。如果Pipeline变量的类实现了保存和加载方法，则可以保存和加载该变量。可以使用<code>DiffusionPipeline.from_pretrained</code>类方法轻松重新加载Pipeline。</p>
+<p><strong>参数</strong>:</p>
+<ul>
+<li><code>save_directory</code> (<code>str</code> 或 <code>os.PathLike</code>): 保存Pipeline的目录。如果不存在将被创建。</li>
+<li><code>safe_serialization</code> (<code>bool</code>, 可选, 默认为 <code>True</code>): 是否使用<code>safetensors</code>保存模型，或使用传统的PyTorch方式与<code>pickle</code>。</li>
+<li><code>variant</code> (<code>str</code>, 可选): 如果指定，权重将以<code>pytorch_model.&lt;variant&gt;.bin</code>格式保存。</li>
+<li><code>max_shard_size</code> (<code>int</code> 或 <code>str</code>, 默认为 <code>None</code>): 分片前检查点的最大大小。分片后的检查点将小于此大小。如果表示为字符串，需要是数字后跟单位（如<code>&quot;5GB&quot;</code>）。如果表示为整数，单位是字节。请注意，此限制将在一定时间后（从2024年10月开始）降低，以允许用户升级到最新版本的<code>diffusers</code>。这是为了在Hugging Face生态系统的不同库（例如<code>transformers</code>和<code>accelerate</code>）中为此参数建立通用默认大小。</li>
+<li><code>push_to_hub</code> (<code>bool</code>, 可选, 默认为 <code>False</code>): 保存后是否将模型推送到Hugging Face模型中心。您可以使用<code>repo_id</code>指定要推送到的仓库（默认为您命名空间中的<code>save_directory</code>名称）。</li>
+<li><code>kwargs</code> (<code>Dict[str, Any]</code>, 可选): 传递给<code>utils.PushToHubMixin.push_to_hub</code>方法的额外关键字参数。</li>
+</ul>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># 基础保存</span>
+pipeline.save_pretrained(<span class="hljs-string">"./my_pipeline"</span>)
+
+<span class="hljs-comment"># 保存fp16变体并推送到Hub</span>
+pipeline.save_pretrained(
+    <span class="hljs-string">"./my_pipeline"</span>,
+    variant=<span class="hljs-string">"fp16"</span>,
+    push_to_hub=<span class="hljs-literal">True</span>,
+    repo_id=<span class="hljs-string">"my_username/my_pipeline"</span>
+)
+</div></code></pre>
+<hr>
+<h3 id="3-to-%E6%96%B9%E6%B3%95">3. <code>to</code> 方法</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">to</span><span class="hljs-params">(self, *args, **kwargs)</span> -&gt; Self
+</span></div></code></pre>
+<p><strong>描述</strong>: 执行Pipeline dtype和/或设备转换。从<code>self.to(*args, **kwargs)</code>的参数推断torch.dtype和torch.device。</p>
+<p><strong>提示</strong>: 如果Pipeline已经具有正确的torch.dtype和torch.device，则按原样返回。否则，返回的Pipeline是具有所需torch.dtype和torch.device的self的副本。</p>
+<p><strong>调用方式</strong>:</p>
+<ul>
+<li><code>to(dtype, silence_dtype_warnings=False) → DiffusionPipeline</code> 返回具有指定dtype的Pipeline</li>
+<li><code>to(device, silence_dtype_warnings=False) → DiffusionPipeline</code> 返回具有指定device的Pipeline</li>
+<li><code>to(device=None, dtype=None, silence_dtype_warnings=False) → DiffusionPipeline</code> 返回具有指定device和dtype的Pipeline</li>
+</ul>
+<p><strong>参数</strong>:</p>
+<ul>
+<li><code>dtype</code> (<code>torch.dtype</code>, 可选): 返回具有指定dtype的Pipeline</li>
+<li><code>device</code> (<code>torch.Device</code>, 可选): 返回具有指定device的Pipeline</li>
+<li><code>silence_dtype_warnings</code> (<code>str</code>, 可选, 默认为 <code>False</code>): 如果目标<code>dtype</code>与目标<code>device</code>不兼容，是否省略警告。</li>
+</ul>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># 移动到GPU</span>
+pipeline = pipeline.to(<span class="hljs-string">"cuda"</span>)
+
+<span class="hljs-comment"># 转换数据类型</span>
+pipeline = pipeline.to(torch.float16)
+
+<span class="hljs-comment"># 同时转换设备和数据类型</span>
+pipeline = pipeline.to(<span class="hljs-string">"cuda"</span>, torch.float16)
+</div></code></pre>
+<h2 id="%E8%AE%BE%E5%A4%87%E5%92%8C%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86">设备和内存管理</h2>
+<h3 id="4-enablemodelcpuoffload-%E6%96%B9%E6%B3%95">4. <code>enable_model_cpu_offload</code> 方法</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">enable_model_cpu_offload</span><span class="hljs-params">(self, gpu_id: Optional[int] = None, device: Union[torch.device, str] = None)</span>
+</span></div></code></pre>
+<p><strong>描述</strong>: 使用accelerate将所有模型卸载到CPU，以较低的性能影响减少内存使用。与<code>enable_sequential_cpu_offload</code>相比，此方法在调用其<code>forward</code>方法时将一个完整模型移动到加速器，模型保持在加速器上直到下一个模型运行。内存节省低于<code>enable_sequential_cpu_offload</code>，但由于<code>unet</code>的迭代执行，性能要好得多。</p>
+<p><strong>参数</strong>:</p>
+<ul>
+<li><code>gpu_id</code> (<code>int</code>, 可选): 推理中应使用的加速器的ID。如果未指定，将默认为0。</li>
+<li><code>device</code> (<code>torch.Device</code> 或 <code>str</code>, 可选, 默认为None): 推理中应使用的加速器的PyTorch设备类型。如果未指定，将自动检测可用的加速器并使用。</li>
+</ul>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># 使用默认GPU</span>
+pipeline.enable_model_cpu_offload()
+
+<span class="hljs-comment"># 指定GPU ID</span>
+pipeline.enable_model_cpu_offload(gpu_id=<span class="hljs-number">1</span>)
+
+<span class="hljs-comment"># 指定设备</span>
+pipeline.enable_model_cpu_offload(device=<span class="hljs-string">"cuda:1"</span>)
+</div></code></pre>
+<hr>
+<h3 id="5-enablesequentialcpuoffload-%E6%96%B9%E6%B3%95">5. <code>enable_sequential_cpu_offload</code> 方法</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">enable_sequential_cpu_offload</span><span class="hljs-params">(self, gpu_id: Optional[int] = None, device: Union[torch.device, str] = None)</span>
+</span></div></code></pre>
+<p><strong>描述</strong>: 使用🤗 Accelerate将所有模型卸载到CPU，显著减少内存使用。调用时，所有<code>torch.nn.Module</code>组件（除了<code>self._exclude_from_cpu_offload</code>中的组件）的状态字典保存到CPU，然后移动到<code>torch.device('meta')</code>，仅在调用其特定子模块的<code>forward</code>方法时加载到加速器。卸载发生在子模块基础上。内存节省高于<code>enable_model_cpu_offload</code>，但性能较低。</p>
+<p><strong>参数</strong>:</p>
+<ul>
+<li><code>gpu_id</code> (<code>int</code>, 可选): 推理中应使用的加速器的ID。如果未指定，将默认为0。</li>
+<li><code>device</code> (<code>torch.Device</code> 或 <code>str</code>, 可选, 默认为None): 推理中应使用的加速器的PyTorch设备类型。如果未指定，将自动检测可用的加速器并使用。</li>
+</ul>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># 启用顺序CPU卸载</span>
+pipeline.enable_sequential_cpu_offload()
+
+<span class="hljs-comment"># 指定设备</span>
+pipeline.enable_sequential_cpu_offload(device=<span class="hljs-string">"cuda:0"</span>)
+</div></code></pre>
+<h2 id="%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%BC%98%E5%8C%96">注意力优化</h2>
+<h3 id="6-enablexformersmemoryefficientattention-%E6%96%B9%E6%B3%95">6. <code>enable_xformers_memory_efficient_attention</code> 方法</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">enable_xformers_memory_efficient_attention</span><span class="hljs-params">(self, attention_op: Optional[Callable] = None)</span>
+</span></div></code></pre>
+<p><strong>描述</strong>: 启用来自<a href="https://facebookresearch.github.io/xformers/">xFormers</a>的内存高效注意力。启用此选项时，您应该观察到更低的GPU内存使用和推理期间的潜在加速。不保证训练期间的加速。</p>
+<p><strong>警告</strong>: ⚠️ 当内存高效注意力和切片注意力都启用时，内存高效注意力优先。</p>
+<p><strong>参数</strong>:</p>
+<ul>
+<li><code>attention_op</code> (<code>Callable</code>, 可选): 覆盖默认的<code>None</code>操作符，用作xFormers的<a href="https://facebookresearch.github.io/xformers/components/ops.html#xformers.ops.memory_efficient_attention"><code>memory_efficient_attention()</code></a>函数的<code>op</code>参数。</li>
+</ul>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> torch
+<span class="hljs-keyword">from</span> diffusers <span class="hljs-keyword">import</span> DiffusionPipeline
+<span class="hljs-keyword">from</span> xformers.ops <span class="hljs-keyword">import</span> MemoryEfficientAttentionFlashAttentionOp
+
+pipe = DiffusionPipeline.from_pretrained(<span class="hljs-string">"stabilityai/stable-diffusion-2-1"</span>, torch_dtype=torch.float16)
+pipe = pipe.to(<span class="hljs-string">"cuda"</span>)
+pipe.enable_xformers_memory_efficient_attention(attention_op=MemoryEfficientAttentionFlashAttentionOp)
+<span class="hljs-comment"># 针对不接受Flash Attention注意力形状的VAE的变通方案</span>
+pipe.vae.enable_xformers_memory_efficient_attention(attention_op=<span class="hljs-literal">None</span>)
+</div></code></pre>
+<hr>
+<h3 id="7-enableattentionslicing-%E6%96%B9%E6%B3%95">7. <code>enable_attention_slicing</code> 方法</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">enable_attention_slicing</span><span class="hljs-params">(self, slice_size: Optional[Union[str, int]] = <span class="hljs-string">"auto"</span>)</span>
+</span></div></code></pre>
+<p><strong>描述</strong>: 启用切片注意力计算。启用此选项时，注意力模块将输入张量分割成切片，分几个步骤计算注意力。对于多个注意力头，计算在每个头上顺序执行。这对于以小的速度降低为代价节省一些内存很有用。</p>
+<p><strong>警告</strong>: ⚠️ 如果您已经使用PyTorch 2.0的<code>scaled_dot_product_attention</code>(SDPA)或xFormers，请不要启用注意力切片。这些注意力计算已经非常内存高效，因此您不需要启用此功能。如果您在使用SDPA或xFormers时启用注意力切片，可能会导致严重的减速！</p>
+<p><strong>参数</strong>:</p>
+<ul>
+<li><code>slice_size</code> (<code>str</code> 或 <code>int</code>, 可选, 默认为 <code>&quot;auto&quot;</code>): 当为<code>&quot;auto&quot;</code>时，将注意力头的输入减半，因此注意力将分两步计算。如果为<code>&quot;max&quot;</code>，通过一次只运行一个切片来节省最大内存。如果提供数字，则使用<code>attention_head_dim // slice_size</code>个切片。在这种情况下，<code>attention_head_dim</code>必须是<code>slice_size</code>的倍数。</li>
+</ul>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> torch
+<span class="hljs-keyword">from</span> diffusers <span class="hljs-keyword">import</span> StableDiffusionPipeline
+
+pipe = StableDiffusionPipeline.from_pretrained(
+    <span class="hljs-string">"stable-diffusion-v1-5/stable-diffusion-v1-5"</span>,
+    torch_dtype=torch.float16,
+    use_safetensors=<span class="hljs-literal">True</span>,
+)
+
+prompt = <span class="hljs-string">"a photo of an astronaut riding a horse on mars"</span>
+pipe.enable_attention_slicing()
+image = pipe(prompt).images[<span class="hljs-number">0</span>]
+</div></code></pre>
+<h2 id="vae%E4%BC%98%E5%8C%96">VAE优化</h2>
+<h3 id="8-enablevaeslicing-%E6%96%B9%E6%B3%95">8. <code>enable_vae_slicing</code> 方法</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">enable_vae_slicing</span><span class="hljs-params">(self)</span>
+</span></div></code></pre>
+<p><strong>描述</strong>: 启用切片VAE解码。启用此选项时，VAE将输入张量分割成切片，分几个步骤计算解码。这对于节省一些内存和允许更大的批次大小很有用。</p>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># 启用VAE切片</span>
+pipeline.enable_vae_slicing()
+</div></code></pre>
+<hr>
+<h3 id="9-enablevaetiling-%E6%96%B9%E6%B3%95">9. <code>enable_vae_tiling</code> 方法</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">enable_vae_tiling</span><span class="hljs-params">(self)</span>
+</span></div></code></pre>
+<p><strong>描述</strong>: 启用平铺VAE解码。启用此选项时，VAE将输入张量分割成瓦片，分几个步骤计算解码和编码。这对于节省大量内存和允许处理更大图像非常有用。</p>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># 启用VAE平铺</span>
+pipeline.enable_vae_tiling()
+</div></code></pre>
+<h2 id="%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD">高级功能</h2>
+<h3 id="10-enablefreeu-%E6%96%B9%E6%B3%95">10. <code>enable_freeu</code> 方法</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">enable_freeu</span><span class="hljs-params">(self, s1: float, s2: float, b1: float, b2: float)</span>
+</span></div></code></pre>
+<p><strong>描述</strong>: 启用FreeU机制，如https://huggingface.co/papers/2309.11497所述。缩放因子后的后缀表示应用的阶段。</p>
+<p>请参考<a href="https://github.com/ChenyangSi/FreeU">官方仓库</a>获取已知适用于不同Pipeline（如Stable Diffusion v1、v2和Stable Diffusion XL）的值组合。</p>
+<p><strong>参数</strong>:</p>
+<ul>
+<li><code>s1</code> (<code>float</code>): 阶段1的缩放因子，用于减弱跳跃特征的贡献。这样做是为了减轻增强去噪过程中的&quot;过度平滑效应&quot;。</li>
+<li><code>s2</code> (<code>float</code>): 阶段2的缩放因子，用于减弱跳跃特征的贡献。这样做是为了减轻增强去噪过程中的&quot;过度平滑效应&quot;。</li>
+<li><code>b1</code> (<code>float</code>): 阶段1的缩放因子，用于放大骨干特征的贡献。</li>
+<li><code>b2</code> (<code>float</code>): 阶段2的缩放因子，用于放大骨干特征的贡献。</li>
+</ul>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Stable Diffusion v1.5推荐值</span>
+pipeline.enable_freeu(s1=<span class="hljs-number">0.9</span>, s2=<span class="hljs-number">0.2</span>, b1=<span class="hljs-number">1.2</span>, b2=<span class="hljs-number">1.4</span>)
+
+<span class="hljs-comment"># Stable Diffusion XL推荐值</span>
+pipeline.enable_freeu(s1=<span class="hljs-number">0.6</span>, s2=<span class="hljs-number">0.4</span>, b1=<span class="hljs-number">1.1</span>, b2=<span class="hljs-number">1.2</span>)
+</div></code></pre>
+<hr>
+<h3 id="11-fuseqkvprojections-%E6%96%B9%E6%B3%95">11. <code>fuse_qkv_projections</code> 方法</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fuse_qkv_projections</span><span class="hljs-params">(self, unet: bool = True, vae: bool = True)</span>
+</span></div></code></pre>
+<p><strong>描述</strong>: 启用融合QKV投影。对于自注意力模块，所有投影矩阵（即查询、键、值）都被融合。对于交叉注意力模块，键和值投影矩阵被融合。</p>
+<p><strong>警告</strong>: 🧪 这是实验性API。</p>
+<p><strong>参数</strong>:</p>
+<ul>
+<li><code>unet</code> (<code>bool</code>, 默认为 <code>True</code>): 在UNet上应用融合。</li>
+<li><code>vae</code> (<code>bool</code>, 默认为 <code>True</code>): 在VAE上应用融合。</li>
+</ul>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># 融合UNet和VAE的QKV投影</span>
+pipeline.fuse_qkv_projections()
+
+<span class="hljs-comment"># 仅融合UNet</span>
+pipeline.fuse_qkv_projections(unet=<span class="hljs-literal">True</span>, vae=<span class="hljs-literal">False</span>)
+</div></code></pre>
+<h2 id="%E5%B7%A5%E5%85%B7%E6%96%B9%E6%B3%95">工具方法</h2>
+<h3 id="12-progressbar-%E6%96%B9%E6%B3%95">12. <code>progress_bar</code> 方法</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">progress_bar</span><span class="hljs-params">(self, iterable=None, total=None)</span>
+</span></div></code></pre>
+<p><strong>描述</strong>: 创建进度条用于显示推理进度。</p>
+<p><strong>参数</strong>:</p>
+<ul>
+<li><code>iterable</code> (可选): 可迭代对象，用于包装进度条</li>
+<li><code>total</code> (可选): 总步数，用于创建手动更新的进度条</li>
+</ul>
+<p><strong>注意</strong>: 必须定义<code>total</code>或<code>iterable</code>中的一个。</p>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># 包装可迭代对象</span>
+<span class="hljs-keyword">for</span> step <span class="hljs-keyword">in</span> pipeline.progress_bar(range(<span class="hljs-number">50</span>)):
+    <span class="hljs-comment"># 执行推理步骤</span>
+    <span class="hljs-keyword">pass</span>
+
+<span class="hljs-comment"># 手动进度条</span>
+pbar = pipeline.progress_bar(total=<span class="hljs-number">50</span>)
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">50</span>):
+    <span class="hljs-comment"># 执行操作</span>
+    pbar.update(<span class="hljs-number">1</span>)
+</div></code></pre>
+<hr>
+<h3 id="13-numpytopil-%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95">13. <code>numpy_to_pil</code> 静态方法</h3>
+<pre class="hljs"><code><div><span class="hljs-meta">@staticmethod</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">numpy_to_pil</span><span class="hljs-params">(images)</span>
+</span></div></code></pre>
+<p><strong>描述</strong>: 将NumPy图像或图像批次转换为PIL图像。</p>
+<p><strong>参数</strong>:</p>
+<ul>
+<li><code>images</code>: NumPy数组格式的图像</li>
+</ul>
+<p><strong>返回值</strong>: PIL图像列表</p>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+<span class="hljs-comment"># 转换NumPy图像为PIL</span>
+numpy_images = np.random.rand(<span class="hljs-number">2</span>, <span class="hljs-number">512</span>, <span class="hljs-number">512</span>, <span class="hljs-number">3</span>)
+pil_images = DiffusionPipeline.numpy_to_pil(numpy_images)
+</div></code></pre>
+<hr>
+<h3 id="14-frompipe-%E7%B1%BB%E6%96%B9%E6%B3%95">14. <code>from_pipe</code> 类方法</h3>
+<pre class="hljs"><code><div><span class="hljs-meta">@classmethod</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">from_pipe</span><span class="hljs-params">(cls, pipeline, **kwargs)</span>
+</span></div></code></pre>
+<p><strong>描述</strong>: 从给定Pipeline创建新Pipeline。此方法对于从现有Pipeline组件创建新Pipeline而不重新分配额外内存很有用。</p>
+<p><strong>参数</strong>:</p>
+<ul>
+<li><code>pipeline</code> (<code>DiffusionPipeline</code>): 要从中创建新Pipeline的Pipeline。</li>
+</ul>
+<p><strong>返回值</strong>: <code>DiffusionPipeline</code>: 具有与<code>pipeline</code>相同权重和配置的新Pipeline。</p>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> diffusers <span class="hljs-keyword">import</span> StableDiffusionPipeline, StableDiffusionSAGPipeline
+
+pipe = StableDiffusionPipeline.from_pretrained(<span class="hljs-string">"stable-diffusion-v1-5/stable-diffusion-v1-5"</span>)
+new_pipe = StableDiffusionSAGPipeline.from_pipe(pipe)
+</div></code></pre>
+<hr>
+<h3 id="15-download-%E7%B1%BB%E6%96%B9%E6%B3%95">15. <code>download</code> 类方法</h3>
+<pre class="hljs"><code><div><span class="hljs-meta">@classmethod</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">download</span><span class="hljs-params">(cls, pretrained_model_name, **kwargs)</span> -&gt; Union[str, os.PathLike]
+</span></div></code></pre>
+<p><strong>描述</strong>: 下载并缓存PyTorch扩散Pipeline的预训练Pipeline权重。</p>
+<p><strong>参数</strong>:</p>
+<ul>
+<li><code>pretrained_model_name</code> (<code>str</code> 或 <code>os.PathLike</code>, 可选): 字符串，托管在Hub上的预训练Pipeline的<em>仓库id</em>（例如<code>CompVis/ldm-text2im-large-256</code>）。</li>
+<li><code>custom_pipeline</code> (<code>str</code>, 可选): 可以是：
+<ul>
+<li>字符串，托管在Hub上的预训练Pipeline的<em>仓库id</em>（例如<code>CompVis/ldm-text2im-large-256</code>）。仓库必须包含定义自定义Pipeline的<code>pipeline.py</code>文件。</li>
+<li>字符串，托管在GitHub上<a href="https://github.com/huggingface/diffusers/tree/main/examples/community">Community</a>下的社区Pipeline的<em>文件名</em>。有效文件名必须匹配文件名而不是Pipeline脚本（<code>clip_guided_stable_diffusion</code>而不是<code>clip_guided_stable_diffusion.py</code>）。社区Pipeline始终从GitHub的当前<code>main</code>分支加载。</li>
+<li>包含自定义Pipeline的<em>目录</em>路径（<code>./my_pipeline_directory/</code>）。目录必须包含定义自定义Pipeline的<code>pipeline.py</code>文件。</li>
+</ul>
+</li>
+</ul>
+<p><strong>警告</strong>: 🧪 这是一个实验性功能，可能在未来发生变化。</p>
+<p>有关如何加载和创建自定义Pipeline的更多信息，请查看<a href="https://huggingface.co/docs/diffusers/main/en/using-diffusers/contribute_pipeline">如何贡献社区Pipeline</a>。</p>
+<ul>
+<li><code>force_download</code> (<code>bool</code>, 可选, 默认为 <code>False</code>): 是否强制（重新）下载模型权重和配置文件，覆盖缓存版本（如果存在）。</li>
+<li><code>proxies</code> (<code>Dict[str, str]</code>, 可选): 按协议或端点使用的代理服务器字典，例如<code>{'http': 'foo.bar:3128', 'http://hostname': 'foo.bar:4012'}</code>。代理在每个请求中使用。</li>
+<li><code>output_loading_info</code> (<code>bool</code>, 可选, 默认为 <code>False</code>): 是否还返回包含缺失键、意外键和错误消息的字典。</li>
+<li><code>local_files_only</code> (<code>bool</code>, 可选, 默认为 <code>False</code>): 是否仅加载本地模型权重和配置文件。如果设置为<code>True</code>，模型不会从Hub下载。</li>
+<li><code>token</code> (<code>str</code> 或 <code>bool</code>, 可选): 用作远程文件HTTP bearer授权的令牌。如果为<code>True</code>，则使用从<code>diffusers-cli login</code>生成的令牌（存储在<code>~/.huggingface</code>中）。</li>
+<li><code>revision</code> (<code>str</code>, 可选, 默认为 <code>&quot;main&quot;</code>): 要使用的特定模型版本。可以是分支名称、标签名称、提交id或Git允许的任何标识符。</li>
+</ul>
+<p><strong>返回值</strong>: 下载的模型路径</p>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># 下载模型到缓存</span>
+model_path = DiffusionPipeline.download(<span class="hljs-string">"stable-diffusion-v1-5/stable-diffusion-v1-5"</span>)
+print(<span class="hljs-string">f"模型下载到: <span class="hljs-subst">{model_path}</span>"</span>)
+</div></code></pre>
+<h2 id="%E5%B1%9E%E6%80%A7%E8%AE%BF%E9%97%AE%E5%99%A8">属性访问器</h2>
+<h3 id="16-device-%E5%B1%9E%E6%80%A7">16. <code>device</code> 属性</h3>
+<pre class="hljs"><code><div><span class="hljs-meta">@property</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">device</span><span class="hljs-params">(self)</span> -&gt; torch.device
+</span></div></code></pre>
+<p><strong>描述</strong>: 返回Pipeline所在的torch设备。</p>
+<p><strong>返回值</strong>: <code>torch.device</code>: Pipeline所在的torch设备。</p>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div>print(<span class="hljs-string">f"Pipeline在设备: <span class="hljs-subst">{pipeline.device}</span>"</span>)
+<span class="hljs-comment"># 输出: Pipeline在设备: cuda:0</span>
+</div></code></pre>
+<hr>
+<h3 id="17-dtype-%E5%B1%9E%E6%80%A7">17. <code>dtype</code> 属性</h3>
+<pre class="hljs"><code><div><span class="hljs-meta">@property</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dtype</span><span class="hljs-params">(self)</span> -&gt; torch.dtype
+</span></div></code></pre>
+<p><strong>描述</strong>: 返回Pipeline所在的torch dtype。</p>
+<p><strong>返回值</strong>: <code>torch.dtype</code>: Pipeline所在的torch dtype。</p>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div>print(<span class="hljs-string">f"Pipeline数据类型: <span class="hljs-subst">{pipeline.dtype}</span>"</span>)
+<span class="hljs-comment"># 输出: Pipeline数据类型: torch.float16</span>
+</div></code></pre>
+<hr>
+<h3 id="18-components-%E5%B1%9E%E6%80%A7">18. <code>components</code> 属性</h3>
+<pre class="hljs"><code><div><span class="hljs-meta">@property</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">components</span><span class="hljs-params">(self)</span> -&gt; Dict[str, Any]
+</span></div></code></pre>
+<p><strong>描述</strong>: <code>self.components</code>属性对于使用相同权重和配置运行不同Pipeline而不重新分配额外内存很有用。</p>
+<p><strong>返回值</strong> (<code>dict</code>): 包含所有Pipeline组件的字典，其中键是组件名称，值是组件实例。</p>
+<p><strong>示例</strong>:</p>
+<pre class="hljs"><code><div>components = pipeline.components
+print(<span class="hljs-string">"Pipeline组件:"</span>, list(components.keys()))
+<span class="hljs-comment"># 输出: Pipeline组件: ['vae', 'text_encoder', 'tokenizer', 'unet', 'scheduler']</span>
+
+<span class="hljs-comment"># 使用组件创建新Pipeline</span>
+new_pipeline = AnotherPipeline(**components)
+</div></code></pre>
+
+</body>
+</html>
